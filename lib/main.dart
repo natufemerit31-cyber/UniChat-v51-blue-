@@ -1,55 +1,92 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(UniChatApp());
+  runApp(const UniChatApp());
 }
 
 class UniChatApp extends StatelessWidget {
+  const UniChatApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'UniChat 🥷',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1976D2),
+        ),
+        useMaterial3: true,
+      ),
+      home: const HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _current = 0;
+  int _selectedIndex = 0;
 
-  final _pages = [
-    Center(child: Text("UniChat\nChats", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-    Center(child: Text("Channels", style: TextStyle(fontSize: 24))),
-    Center(child: Text("🥷 AI Assistant\nNinja Mode", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-    Center(child: Text("Study Tools", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Profile", style: TextStyle(fontSize: 24))),
+  static const List<String> _titles = [
+    '💬 Chats / UniChat',
+    'Channels',
+    '🥷 AI Assistant - Ninja Mode',
+    'Study Tools',
+    'Profile',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("UniChat 🥷"),
-        backgroundColor: Color(0xFF1976D2),
-        foregroundColor: Colors.white,
+        title: const Text('UniChat 🥷'),
+        foregroundColor: const Color(0xFF1976D2),
       ),
-      body: _pages[_current],
+      body: Center(
+        child: Text(
+          _titles[_selectedIndex],
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _current,
-        onTap: (v) => setState(() => _current = v),
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF1976D2),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.campaign), label: "Channels"),
-          BottomNavigationBarItem(icon: Text("🥷", style: TextStyle(fontSize: 24)), label: "AI"),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: "Study"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            label: 'Chats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.campaign_outlined),
+            label: 'Channels',
+          ),
+          BottomNavigationBarItem(
+            icon: Text(
+              '🥷',
+              style: TextStyle(fontSize: 24),
+            ),
+            label: 'AI Assistant',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book_outlined),
+            label: 'Study Tools',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
         ],
       ),
     );
