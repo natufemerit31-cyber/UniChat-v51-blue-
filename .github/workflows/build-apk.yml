@@ -14,20 +14,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
-
-      - name: Rebuild Android Folder
-        run: |
-          cp lib/main.dart /tmp/main.dart
-          rm -rf android ios web linux macos windows
-          flutter create --project-name unichat --org com.unichat.
-          cp /tmp/main.dart lib/main.dart
-
+      - run: flutter create --project-name unichat --org com.unichat.
       - run: flutter pub get
       - run: flutter build apk --release
-
-      - name: Release APK
-        uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0-${{ github.run_number }}
-          name: UniChat Ninja APK
+          tag_name: v1.0.${{ github.run_number }}
+          name: UniChat Ninja ${{ github.run_number }}
           files: build/app/outputs/flutter-apk/app-release.apk
