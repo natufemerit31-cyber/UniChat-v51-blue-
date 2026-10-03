@@ -1,4 +1,4 @@
-name: Build Blue APK
+name: Build UniChat APK
 on: [push]
 jobs:
   build:
@@ -15,20 +15,19 @@ jobs:
         with:
           flutter-version: '3.22.0'
 
-      - name: Fix Gradle Project + Keep Ninja Code
+      - name: Rebuild Android Folder
         run: |
-          mkdir -p /tmp/bak
-          cp lib/main.dart /tmp/bak/main.dart
+          cp lib/main.dart /tmp/main.dart
           rm -rf android ios web linux macos windows
-          flutter create --project-name unichat_v51_blue --org com.unichat.blue.
-          cp /tmp/bak/main.dart lib/main.dart
+          flutter create --project-name unichat --org com.unichat.
+          cp /tmp/main.dart lib/main.dart
 
       - run: flutter pub get
       - run: flutter build apk --release
 
-      - name: Create Release with APK
+      - name: Release APK
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0-blue-${{ github.run_number }}
-          name: UniChat Blue v51 🥷 APK
+          tag_name: v1.0-${{ github.run_number }}
+          name: UniChat Ninja APK
           files: build/app/outputs/flutter-apk/app-release.apk
