@@ -14,11 +14,21 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
+
+      - name: Fix Gradle Project + Keep Ninja Code
+        run: |
+          mkdir -p /tmp/bak
+          cp lib/main.dart /tmp/bak/main.dart
+          rm -rf android ios web linux macos windows
+          flutter create --project-name unichat_v51_blue --org com.unichat.blue.
+          cp /tmp/bak/main.dart lib/main.dart
+
       - run: flutter pub get
       - run: flutter build apk --release
+
       - name: Create Release with APK
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v1.0-blue-${{ github.run_number }}
-          name: UniChat Blue v51 APK
+          name: UniChat Blue v51 🥷 APK
           files: build/app/outputs/flutter-apk/app-release.apk
